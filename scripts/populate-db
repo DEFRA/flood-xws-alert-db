@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+pushd /db-init-scripts
+
+psql -v ON_ERROR_STOP=1 -f before.sql
+
+pushd alert && psql -v ON_ERROR_STOP=1 -f run.sql && popd
+
+popd
+

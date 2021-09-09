@@ -1,0 +1,4 @@
+*.env
+# These files are generated from the commited shape files and should not be committed
+area/flood-areas/faa.sql
+area/flood-areas/fwa.sql
