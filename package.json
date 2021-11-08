@@ -1,0 +1,31 @@
+{
+  "name": "flood-xws-alert-db",
+  "version": "0.0.1",
+  "description": "XWS alert database",
+  "scripts": {
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/flood-xws-alert-db.git"
+  },
+  "keywords": [
+    "xws",
+    "alert",
+    "database",
+    "knex"
+  ],
+  "author": "DEFRA",
+  "license": "OGL-UK-3.0",
+  "bugs": {
+    "url": "https://github.com/DEFRA/flood-xws-alert-db/issues"
+  },
+  "homepage": "https://github.com/DEFRA/flood-xws-alert-db#readme",
+  "dependencies": {
+    "knex": "^0.95.13",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "standard": "^16.0.4"
+  }
+}

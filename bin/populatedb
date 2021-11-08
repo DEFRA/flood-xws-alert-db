@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Unzip shapefile and load the alert areas into a new table called "faa" in the xws.xws_area schema
+unzip -d faa EA_FloodAlertAreas_SHP_Full.zip
+ogr2ogr -a_srs "EPSG:27700" -f "PostgreSQL" "PG:host=localhost dbname=xws" "./faa/data/Flood_Alert_Areas.shp" -lco GEOMETRY_NAME=geom -lco FID=gid -lco PRECISION=no -lco SCHEMA=xws_area -nlt PROMOTE_TO_MULTI -nln faa -overwrite -progress
+rm -rf faa
+
+# Unzip shapefile and load the warning areas into a new table called "fwa" in the xws.xws_area schema
+unzip -d fwa EA_FloodWarningAreas_SHP_Full.zip
+ogr2ogr -a_srs "EPSG:27700" -f "PostgreSQL" "PG:host=localhost dbname=xws" "./fwa/data/Flood_Warning_Areas.shp" -lco GEOMETRY_NAME=geom -lco FID=gid -lco PRECISION=no -lco SCHEMA=xws_area -nlt PROMOTE_TO_MULTI -nln fwa -overwrite -progress
+rm -rf fwa
+
+# Now import the data from these new "faa" and "fwa" tables into the combined table xws.xws_area.area (also drops the temporary "faa" and "fwa" tables)
+psql -Atx -d xws -f populatedb.sql
