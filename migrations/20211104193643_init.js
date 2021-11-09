@@ -173,7 +173,7 @@ exports.up = function (knex) {
           t.string('cap_certainty_name', 60).references('name')
             .inTable(`${ALERT_SCHEMA_NAME}.cap_certainty`).notNullable()
           t.specificType('parent_alert_id', 'uuid').references('id')
-            .inTable(`${ALERT_SCHEMA_NAME}.alert`).notNullable()
+            .inTable(`${ALERT_SCHEMA_NAME}.alert`).nullable()
           t.string('headline', 90).notNullable()
           t.string('body', 990).notNullable()
           t.boolean('active').nullable()
