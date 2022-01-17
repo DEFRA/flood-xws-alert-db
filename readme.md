@@ -1,28 +1,92 @@
-# XWS DB
+# flood-xws-alert-db
 
-This project currently contains the database scripts for all the XWS subsystems.
+Database and migrations scripts for the XWS Alert Subsystem
 
-These subsystems are mapped to individual postgres schema: `xws_alert`, `xws_area`, `xws_notification`, `xws_contact`. Eventually, this repo may get split into a number of separate db repos per each subsystem. Also, they may eventually be installed to separate databases.
+## Environment variables
+
+| name                    | description                    | required   | valid                         |
+| ----------              | ------------------             | :--------: | :---------------------------: |
+| DATABASE_URL            | Database connection string     | yes        |                               |
 
 
 ## Getting started
 
-***Docker***
+Pre-requisites:
+1. [Postgres](https://www.postgresql.org/) v12 with plugins PostGIS and uuid-ossp
+2. [ogr2ogr](https://gdal.org/programs/ogr2ogr.html) (GDAL)
 
-It is recommended to run postgres in a docker container. The instructions for running a populated DB and all three XWS applications are found in the [flood-xws-development](https://github.com/DEFRA/flood-xws-development) repository.
 
-***Local Install***
+### Mac Users
 
-Pre-requisites: Postgres v12, Plugins -  uuid-ossp
+The easiest way to use PG on a Mac is with [postgresapp](https://postgresapp.com/downloads.html).
 
-```
-  psql -Atx postgresql://postgres:postgres@localhost -f run.sql
-```
+Choose PostgreSQL 12.8 / PostGIS 3.0.3.
 
-***PaaS service DB***
+Postgresapp also comes bundled with ogr2ogr meaning you don't have to install that separately.
 
-To populate the PaaS service DB run the following command:
+You'll need [make them available on your $PATH](https://postgresapp.com/documentation/cli-tools.html). You can do this by adding to your `.profile` or by following the instructions in the link.
 
-`docker build --file DockerfileCF . -t cf-db && docker run --env-file ./cf.env cf-db`
+### Initialising the xws alert database
 
-Note: cf env vars are populated using an env file which you will need to create (see cf.env.sample for the env vars which need populationg)
+Once `PG`, `psql`, `PostGIS` and `ogr2ogr` are available we can [create our initial database](https://www.postgresql.org/docs/9.0/sql-createdatabase.html).
+
+Do this using your db client or via `psql`:
+
+`CREATE DATABASE xws;`
+
+Now we are ready to prepare the database.
+
+First ensure the `DATABASE_URL` environment variable is set.
+
+Then, from the root of this project, execute the following commands.
+
+1. Run the db migrations
+
+`npx knex migrate:up`
+
+2. Seed the db
+
+`npx knex seed:run`
+
+3. Import the Alert and Warning Target Areas.
+
+`cd bin`
+
+`./populatedb`
+
+
+### Other useful commands
+
+[Knex](https://knexjs.org/) (pronounced "connects") is used for db migrations.
+
+Create a new migration file
+`npx knex migrate:make <name>`
+
+Create a new seed file
+`npx knex seed:make seed_name`
+
+To run the next migration that has not yet been run
+`npx knex migrate:up`
+
+To run the specified migration that has not yet been run
+`npx knex migrate:up <name>`
+
+Run all seed files
+`npx knex seed:run`
+
+To undo the last migration that was run
+`npx knex migrate:down`
+
+To undo the specified migration that was run
+`npx knex migrate:down <name>`
+
+
+### Resources
+
+[Knex](https://knexjs.org/)
+
+[Knex migrations cli](https://knexjs.org/#Migrations)
+
+[Knex cheatsheet](https://devhints.io/knex)
+
+
