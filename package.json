@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/DEFRA/flood-xws-alert-db#readme",
   "dependencies": {
-    "knex": "^0.95.13",
+    "knex": "^1.0.1",
     "pg": "^8.7.1"
   },
   "devDependencies": {
