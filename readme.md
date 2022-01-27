@@ -13,7 +13,7 @@ Database and migrations scripts for the XWS Alert Subsystem
 
 Pre-requisites:
 1. [Postgres](https://www.postgresql.org/) v12 with plugins PostGIS and uuid-ossp
-2. [ogr2ogr](https://gdal.org/programs/ogr2ogr.html) (GDAL)
+2. [ogr2ogr](https://gdal.org/programs/ogr2ogr.html) GDAL 3.0.4
 
 
 ### Mac Users
@@ -57,7 +57,7 @@ Then, from the root of this project, execute the following commands.
 
 ### Other useful commands
 
-[Knex](https://knexjs.org/) (pronounced "connects") is used for db migrations.
+[Knex](https://knexjs.org/) is used for db migrations.
 
 Create a new migration file
 `npx knex migrate:make <name>`
